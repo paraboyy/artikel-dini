@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "49bf9581-7f30-45ff-8e66-fff1bf3a81e4",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26849060"
+	},
+	"item": [
+		{
+			"name": "All Artikel",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Artikel by ID",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Artikel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Judul Artikel\",\r\n  \"body\": \"Isi artikel\",\r\n  \"author\": \"Penulis\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/articles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Artikel",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Judul Artikel\",\r\n  \"body\": \"Isi artikel\",\r\n  \"author\": \"Penulis\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/articles/PxYujoKznJSGpgfS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"articles",
+						"PxYujoKznJSGpgfS"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Artikel",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/articles/7U0IeoOWjkRCBQpJ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"articles",
+						"7U0IeoOWjkRCBQpJ"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

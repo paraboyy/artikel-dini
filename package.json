@@ -12,6 +12,8 @@
   "description": "",
   "dependencies": {
     "@hapi/hapi": "^21.3.12",
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.11.4",
     "nanoid": "^2.1.11"
   },
   "devDependencies": {
