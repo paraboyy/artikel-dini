@@ -176,7 +176,150 @@ const deleteArticleByIdHandler = async (request, h) => {
   }
 };
 
+const addUserHandler = async (request, h) => {
+  const { name, age, gender } = request.payload;
+  const id = nanoid(16);
+  const createdAt = new Date().toISOString();
+  const updatedAt = createdAt;
+
+  // Validasi sederhana
+  if (!name || !age || !gender) {
+    return h
+      .response({
+        status: "fail",
+        message: "Gagal menambahkan data diri. Mohon isi semua field yang diperlukan.",
+      })
+      .code(400);
+  }
+
+  if (!["male", "female"].includes(gender)) {
+    return h
+      .response({
+        status: "fail",
+        message: "Jenis kelamin harus berupa 'male' atau 'female'.",
+      })
+      .code(400);
+  }
+
+  try {
+    await db.query(
+      "INSERT INTO users (id, name, age, gender, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+      [id, name, age, gender, createdAt, updatedAt]
+    );
+
+    return h
+      .response({
+        status: "success",
+        message: "Data diri berhasil ditambahkan",
+        data: { userId: id },
+      })
+      .code(201);
+  } catch (error) {
+    return h
+      .response({
+        status: "error",
+        message: "Gagal menambahkan data diri",
+      })
+      .code(500);
+  }
+};
+
+const getAllUsersHandler = async () => {
+  try {
+    const [rows] = await db.query("SELECT id, name, age, gender FROM users");
+    return {
+      status: "success",
+      data: { users: rows },
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      message: "Gagal mengambil data diri",
+    };
+  }
+};
+
+const updateUserHandler = async (request, h) => {
+  const { userId } = request.params;
+  const { name, age, gender } = request.payload;
+  const updatedAt = new Date().toISOString();
+
+  if (!["male", "female"].includes(gender)) {
+    return h
+      .response({
+        status: "fail",
+        message: "Jenis kelamin harus berupa 'male' atau 'female'.",
+      })
+      .code(400);
+  }
+
+  try {
+    const [result] = await db.query(
+      "UPDATE users SET name = ?, age = ?, gender = ?, updated_at = ? WHERE id = ?",
+      [name, age, gender, updatedAt, userId]
+    );
+
+    if (result.affectedRows > 0) {
+      return h
+        .response({
+          status: "success",
+          message: "Data diri berhasil diperbarui",
+        })
+        .code(200);
+    }
+
+    return h
+      .response({
+        status: "fail",
+        message: "Gagal memperbarui data diri. ID tidak ditemukan",
+      })
+      .code(404);
+  } catch (error) {
+    return h
+      .response({
+        status: "error",
+        message: "Gagal memperbarui data diri",
+      })
+      .code(500);
+  }
+};
+
+const deleteUserHandler = async (request, h) => {
+  const { userId } = request.params;
+
+  try {
+    const [result] = await db.query("DELETE FROM users WHERE id = ?", [userId]);
+
+    if (result.affectedRows > 0) {
+      return h
+        .response({
+          status: "success",
+          message: "Data diri berhasil dihapus",
+        })
+        .code(200);
+    }
+
+    return h
+      .response({
+        status: "fail",
+        message: "Data diri gagal dihapus. ID tidak ditemukan",
+      })
+      .code(404);
+  } catch (error) {
+    return h
+      .response({
+        status: "error",
+        message: "Gagal menghapus data diri",
+      })
+      .code(500);
+  }
+};
+
 export {
+  addUserHandler,
+  getAllUsersHandler,
+  updateUserHandler,
+  deleteUserHandler,
   addArticleHandler,
   getAllArticlesHandler,
   getArticleByIdHandler,
